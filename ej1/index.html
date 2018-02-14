@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ej 1 Tema 12</title>
+
+	<script type="text/javascript">
+		
+
+
+
+	//window.onload = function(){
+
+	function peticionXHR(valor){  
+
+
+		//var texto = document.getElementById("paises").value
+
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+
+				document.getElementById("resultados").innerHTML = gestionarXml(this, valor);
+				
+			}
+		};
+		xhttp.open("POST", "http://192.168.56.101/DWEC_P12_01.php", true);
+		
+
+		xhttp.send();
+
+
+	}
+
+
+
+
+	function gestionarXml(dadesXml, valor){
+
+		mayuscula = valor.slice(0,1).toUpperCase();
+		valor = mayuscula+valor.slice(1);
+		//valor.substring(0).toUpperCase() + valor.substring(1, valor.length-1);
+		//alert(valor);
+ 		var xmlDoc = dadesXml.responseXML;
+ 		var textoRespuesta = "";
+
+
+
+ 		var pais = xmlDoc.getElementsByTagName("PAIS");
+ 		//.length;
+
+ 		//console.log(pais);
+ 		for (var i = 0; i < pais.length; i++) {
+ 			
+ 			if ((pais[i].innerHTML.search(valor) != -1)&&(valor != "")) {
+ 				textoRespuesta += pais[i].innerHTML+" <br/>";
+ 			}
+ 			
+ 		}
+
+
+
+
+
+
+ 		return textoRespuesta;
+
+
+
+
+
+
+
+
+ 	}
+
+
+
+
+
+	</script>
+
+
+
+
+
+
+
+</head>
+<body>
+	<label>pais:</label>
+	<input type="text" id="paises" onkeyup="peticionXHR(this.value)">
+	<div id="resultados"></div>
+
+</body>
+</html>
